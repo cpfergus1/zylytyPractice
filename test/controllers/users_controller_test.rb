@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
@@ -12,7 +14,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     assert_difference("User.count") do
-      post users_url, params: { user: {  } }, as: :json
+      post users_url, params: { user: {} }, as: :json
     end
 
     assert_response :created
@@ -24,7 +26,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user" do
-    patch user_url(@user), params: { user: {  } }, as: :json
+    patch user_url(@user), params: { user: {} }, as: :json
     assert_response :success
   end
 
