@@ -42,6 +42,10 @@ gem 'jwt'
 gem 'jbuilder'
 
 
+# Linter
+gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
+
 group :development, :test do
   # Environment handling
   gem 'dotenv-rails'
