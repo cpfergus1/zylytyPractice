@@ -2,6 +2,8 @@
 
 class BaseApiController < ApplicationController
   rescue_from StandardError, with: :truncated_error
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   before_action :authorize_request
 
   def logged_in?
@@ -44,13 +46,23 @@ class BaseApiController < ApplicationController
 
   protected
 
-  def truncated_error(error)
-    error_info = {
-      error: "Bad Request",
-      exception: "#{error.class.name} : #{error.message}",
-    }
-    error_info[:trace] = error.backtrace if Rails.env.development?
+  def truncated_error(errors)
+    error_info = []
+    errors = errors.is_a?(Array) ? errors.take(10) : [errors]
+    errors.each do |error|
+      error_info << { error: "Bad Request", exception: "#{error.class.name} : #{error.message}" }
+      error_info[:trace] = error.backtrace if Rails.env.development?
+    end
+
     render json: error_info.to_json, status: :bad_request
+  end
+
+  def record_not_found
+    head :not_found
+  end
+
+  def record_invalid
+    head :bad_request
   end
 
   private
