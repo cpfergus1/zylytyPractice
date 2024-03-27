@@ -51,7 +51,6 @@ class BaseApiController < ApplicationController
     errors = errors.is_a?(Array) ? errors.take(10) : [errors]
     errors.each do |error|
       error_info << { error: "Bad Request", exception: "#{error.class.name} : #{error.message}" }
-      error_info[:trace] = error.backtrace if Rails.env.development?
     end
 
     render json: error_info.to_json, status: :bad_request
