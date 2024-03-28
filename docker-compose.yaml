@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  ruby:
+    build: .
+    image: ruby_backend:latest
+    ports:
+      - "8080:4000"
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: test
+      DB_SCHEMA_NAME: main_db
+      DB_PORT: 5432
+      DB_HOST: postgresdb  # Use the service name as the host within Docker network
+      ADMIN_API_KEY: DEFAULT-API-KEY
+      API_LISTENING_PORT: 4000
+    depends_on:
+      - postgresdb
+    networks:
+      - app-network
+
+  postgresdb:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: main_db
+    ports:
+      - "5432:5432"  # Optional: Expose PostgreSQL port on the host for direct access
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

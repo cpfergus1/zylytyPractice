@@ -31,7 +31,7 @@ class BaseApiController < ApplicationController
   end
 
   def jwt_secret
-    Rails.application.credentials.jwt_secret
+    ENV['JWT_SECRET'] || Rails.application.credentials.jwt_secret
   end
 
   def issue_token(user)
