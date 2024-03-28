@@ -2,7 +2,7 @@ FROM ruby:3.2.2
 
 WORKDIR /app
 
-ENV RAILS_ENV=development \
+ENV RAILS_ENV="production" \
     RAILS_LOG_TO_STDOUT=true
 
 RUN apt-get update -qq && apt-get install -y postgresql-client netcat-openbsd && rm -rf /var/lib/apt/lists/*
@@ -20,5 +20,6 @@ ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 3000
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "server"]
+
 

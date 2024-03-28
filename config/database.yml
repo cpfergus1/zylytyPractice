@@ -20,4 +20,5 @@ test:
 
 production:
   <<: *default
-  database: <%= ENV.fetch("DB_SCHEMA_NAME") { "hello" } %>_production
+  database: <%= ENV.fetch("DB_SCHEMA_NAME") { "hello" } %>
+  
