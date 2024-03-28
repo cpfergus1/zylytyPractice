@@ -11,7 +11,7 @@ class BaseApiController < ApplicationController
   end
 
   def token
-    request.cookies['sessionId']
+    request.cookies['session']
   end
 
   def user_id

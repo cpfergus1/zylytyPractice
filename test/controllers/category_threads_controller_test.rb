@@ -9,7 +9,7 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
     @user = User.create(username: 'testuser', email: 'test@email.email', password: 'password')
     @category = Category.create(name: 'Test Category')
     @session_token = generate_jwt_token(@user)
-    @header = { 'Cookie' => "sessionId=#{@session_token}" }
+    @header = { 'Cookie' => "session=#{@session_token}" }
     @category_thread = create(:category_thread, category: @category, author: @user)
     @admin_header = { 'Authorization' => ENV['ADMIN_API_KEY'] }
   end

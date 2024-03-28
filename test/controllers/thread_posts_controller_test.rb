@@ -9,7 +9,7 @@ class ThreadPostsControllerTest < ActionDispatch::IntegrationTest
     @user = create(:user)
     @category_thread = create(:category_thread, author: @user)
     @session_token = generate_jwt_token(@user)
-    @headers = { "Cookie" => "sessionId=#{@session_token}" }
+    @headers = { "Cookie" => "session=#{@session_token}" }
   end
 
   test "should create thread posts" do

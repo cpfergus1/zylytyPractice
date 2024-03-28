@@ -8,7 +8,7 @@ class UsersController < BaseApiController
     @user = User.find_by(username: params[:username])
     if @user&.authenticate(params[:password])
       @token = issue_token(@user)
-      response.set_cookie('sessionId', @token)
+      response.set_cookie('session', @token)
       render 'users/login', status: :ok
     else
       head :unauthorized

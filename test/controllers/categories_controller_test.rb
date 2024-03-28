@@ -13,7 +13,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get categories_url, headers: { 'Cookie' => "sessionId=#{@session_token}" }
+    get categories_url, headers: { 'Cookie' => "session=#{@session_token}" }
     assert_response :success
     assert_includes @response.body, @category.name
   end
@@ -27,7 +27,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should not create category without admin API key" do
     assert_no_difference('Category.count') do
-      post categories_url, params: { categories: ['UnauthorizedCategory'] }, headers: { 'Cookie' => "sessionId=#{@session_token}" }
+      post categories_url, params: { categories: ['UnauthorizedCategory'] }, headers: { 'Cookie' => "session=#{@session_token}" }
     end
     assert_response :unauthorized
   end
@@ -45,7 +45,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should return unauthorized with invalid token" do
-    delete category_path(category: @category.name), headers: { 'Cookie' => "sessionId=#{@session_token}", 'Authorization' => 'invalid_token' }
+    delete category_path(category: @category.name), headers: { 'Cookie' => "session=#{@session_token}", 'Authorization' => 'invalid_token' }
     assert_response :unauthorized
   end
 

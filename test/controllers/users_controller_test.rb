@@ -22,7 +22,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should login user successfully" do
     post login_url, params: @user_login.to_json, headers: { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
     assert_response :ok
-    assert_not_nil response.cookies['sessionId']
+    assert_not_nil response.cookies['session']
   end
 
   test "should register user successfully" do
