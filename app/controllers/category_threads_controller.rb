@@ -13,9 +13,18 @@ class CategoryThreadsController < BaseApiController
 
   # GET /threads
   def index
-    # Convert to array if single value
-    category_names = [params[:categories]].flatten
+    return head :bad_request if params[:categories].empty?
+
+    begin
+      category_names = JSON.parse(params[:categories])
+    rescue JSON::ParserError
+      # Convert to array if single value
+      category_names = [params[:categories]]
+    end
+
     categories = ::Category.where(name: category_names)
+
+    return :not_found if categories.empty?
 
     page = params[:page].to_i + 1
     per_page = params[:page_size] || 10
