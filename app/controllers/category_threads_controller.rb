@@ -39,7 +39,7 @@ class CategoryThreadsController < BaseApiController
   private
 
   def category_thread_params
-    thread_post_attributes = { text: params[:openingPost], author: current_user }
+    thread_post_attributes = { text: params[:openingPost][:text], author: current_user }
     params.permit(:title).merge(author: current_user, thread_posts_attributes: [thread_post_attributes])
   end
 end

@@ -15,7 +15,7 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create thread" do
-    params = { category: @category.name, title: 'New Discussion', openingPost: 'This is a new discussion' }
+    params = { category: @category.name, title: 'New Discussion', openingPost: { text: 'This is a new discussion' } }
     assert_difference('CategoryThread.count') do
       post category_threads_url, params: params, headers: @header, as: :json
     end
@@ -84,5 +84,10 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
   test "should return not found for non-existing thread" do
     delete category_threads_path(@category_thread.id + 10), headers: @admin_header
     assert_response :not_found
+  end
+
+  test 'thread creation' do
+    post '/thread', params: { category: @category.name, title: 'New Discussion', openingPost: { text: 'This is a new discussion' } }, headers: @header
+    assert_response :created
   end
 end
