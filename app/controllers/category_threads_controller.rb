@@ -15,16 +15,18 @@ class CategoryThreadsController < BaseApiController
   def index
     # Convert to array if single value
     category_names = [params[:categories]].flatten
-    categories = category_names.map { |name| Category.find_by!(name: name) }
+    categories = ::Category.where(name: category_names)
 
-    @threads = CategoryThread.includes(:category)
-    @threads = @threads.where(category: categories)
-    @threads = @threads.where(title: params[:title]) if params[:title]
-    @threads = @threads.where(author: params[:author]) if params[:author]
-    @threads = @threads.order(created_at: :desc) if params[:newest_first] == 'true'
-    @threads = @threads.paginate(page: params[:page], per_page: params[:page_size] || 10)
+    page = params[:page].to_i + 1
+    per_page = params[:page_size] || 10
 
-    render json: @threads
+    @category_threads = CategoryThread.includes(:category).where(category: categories)
+    @category_threads = @category_threads.where(title: params[:title]) if params[:title]
+    @category_threads = @category_threads.where(author: params[:author]) if params[:author]
+    @category_threads = @category_threads.order(created_at: :desc) if params[:newest_first] == 'true'
+    @category_threads = @category_threads.paginate(page: page, per_page: per_page)
+
+    @category_threads
   end
 
   # DELETE /threads/:id

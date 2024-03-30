@@ -29,6 +29,11 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil response.body
   end
 
+  test 'returns empty array when no threads are found' do
+    get '/thread?categories=Default&newest_first=true&page=0&page_size=10', headers: @header
+    assert_equal JSON.parse(response.body), {"threads"=>[]}
+  end
+
   test "should not create category thread without user" do
     assert_no_difference('CategoryThread.count') do
       params = { category_thread: { title: 'New Thread', user_id: nil, category_id: @category.id } }
@@ -57,13 +62,13 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
 
     json_response = JSON.parse(response.body)
     subject = list.last
-    first_record = json_response.first
+    first_record = json_response['threads'].first
 
     assert_equal subject.title, first_record['title']
     assert_equal subject.id, first_record['id']
-    assert_equal subject.category_id, first_record['category_id']
-    assert_equal subject.author_id, first_record['author_id']
-    assert_equal json_response.count, 10
+    assert_equal subject.category.name, first_record['category']
+    assert_equal subject.author.username, first_record['author']
+    assert_equal json_response['threads'].count, 10
   end
 
   test "should delete thread with valid token" do
