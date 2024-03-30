@@ -67,17 +67,17 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should delete thread with valid token" do
-    delete category_thread_path(@category_thread.id), headers: @admin_header
+    delete category_threads_path, params: { id: @category_thread.id }, headers: @admin_header
     assert_response :no_content
   end
 
   test "should return unauthorized with invalid token" do
-    delete category_thread_path(@category_thread.id), headers: @header.merge("Token" => "invalid")
+    delete category_threads_path, params: { id: @category_thread.id }, headers: @header.merge("Token" => "invalid")
     assert_response :unauthorized
   end
 
   test "should return not found for non-existing thread" do
-    delete category_thread_path(@category_thread.id + 10), headers: @admin_header
+    delete category_threads_path(@category_thread.id + 10), headers: @admin_header
     assert_response :not_found
   end
 end
