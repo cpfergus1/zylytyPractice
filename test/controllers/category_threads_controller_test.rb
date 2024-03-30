@@ -11,7 +11,7 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
     @session_token = generate_jwt_token(@user)
     @header = { 'Cookie' => "session=#{@session_token}" }
     @category_thread = create(:category_thread, category: @category, author: @user)
-    @admin_header = { 'Authorization' => ENV['ADMIN_API_KEY'] }
+    @admin_header = { 'Token' => ENV['ADMIN_API_KEY'] }
   end
 
   test "should create thread" do
@@ -72,7 +72,7 @@ class CategoryThreadsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should return unauthorized with invalid token" do
-    delete category_thread_path(@category_thread.id), headers: @header.merge("Authorization" => "invalid")
+    delete category_thread_path(@category_thread.id), headers: @header.merge("Token" => "invalid")
     assert_response :unauthorized
   end
 

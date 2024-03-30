@@ -19,7 +19,7 @@ class BaseApiController < ApplicationController
   end
 
   def admin_token
-    request.headers['Authorization']
+    request.headers['Token']
   end
 
   def admin?

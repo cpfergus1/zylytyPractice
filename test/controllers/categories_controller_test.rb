@@ -9,7 +9,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category = Category.create(name: "Valid Category")
     @user = create(:user)
     @session_token = generate_jwt_token(@user)
-    @admin_header = { 'Authorization' => ENV['ADMIN_API_KEY'] }
+    @admin_header = { 'Token' => ENV['ADMIN_API_KEY'] }
   end
 
   test "should get index" do
@@ -45,7 +45,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should return unauthorized with invalid token" do
-    delete category_path(category: @category.name), headers: { 'Cookie' => "session=#{@session_token}", 'Authorization' => 'invalid_token' }
+    delete category_path(category: @category.name), headers: { 'Cookie' => "session=#{@session_token}", 'Token' => 'invalid_token' }
     assert_response :unauthorized
   end
 

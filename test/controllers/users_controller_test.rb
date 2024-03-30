@@ -10,7 +10,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user_login = { username: 'testuser', password: 'password' }
     @user = User.create(@user_params)
     @valid_params = { username: 'validuser', email: 'valid@user.email', password: 'password' }
-    @admin_header = { 'Authorization' => ENV['ADMIN_API_KEY'] }
+    @admin_header = { 'Token' => ENV['ADMIN_API_KEY'] }
 
     @invalid_params = {
       username: '', # Invalid because it's blank
@@ -73,7 +73,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user_count = User.count
     csv_data = fixture_file_upload('valid_csv.csv', 'text/csv')
 
-    post import_path, params: { file: csv_data }, headers: { 'Authorization' => 'Invalid Key' }
+    post import_path, params: { file: csv_data }, headers: { 'Token' => 'Invalid Key' }
 
     assert_response :unauthorized
     assert_equal user_count, User.count
