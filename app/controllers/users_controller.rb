@@ -2,6 +2,7 @@
 
 class UsersController < BaseApiController
   skip_before_action :authorize_request, except: :import
+  skip_before_action :default_request_format, only: :import
   before_action :authenticate_admin, only: :import
 
   def login

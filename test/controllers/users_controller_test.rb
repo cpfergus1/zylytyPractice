@@ -86,4 +86,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
     assert_equal user_count, User.count
   end
+
+  test "login with reg" do
+    post '/user/login', params: { username: 'testuser', password: 'password' }
+    assert_response :ok
+    assert_equal JSON.parse(response.body), { "username" => 'testuser', "email" => "test@testing.test" }
+  end
 end
