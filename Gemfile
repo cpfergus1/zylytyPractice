@@ -53,6 +53,9 @@ gem 'rubocop-rails', require: false
 # Imports
 gem 'csv'
 
+# Boost Performance
+gem 'activerecord-import'
+
 group :development, :test do
   # Environment handling
   gem 'dotenv-rails'

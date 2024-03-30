@@ -12,8 +12,12 @@ class CategoriesController < BaseApiController
   end
 
   def create
-    categories = categories_params.map { |name| { name: name } }
-    Category.create!(categories)
+    categories = []
+    categories_params.each do |category_name|
+      categories << Category.new(name: category_name)
+    end
+
+    Category.import categories, validate: true
 
     head :created
   end

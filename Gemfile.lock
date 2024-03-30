@@ -54,6 +54,8 @@ GEM
     activerecord (7.0.8.1)
       activemodel (= 7.0.8.1)
       activesupport (= 7.0.8.1)
+    activerecord-import (1.6.0)
+      activerecord (>= 4.2)
     activestorage (7.0.8.1)
       actionpack (= 7.0.8.1)
       activejob (= 7.0.8.1)
@@ -223,6 +225,7 @@ PLATFORMS
   arm64-darwin-23
 
 DEPENDENCIES
+  activerecord-import
   bcrypt
   bootsnap
   csv
